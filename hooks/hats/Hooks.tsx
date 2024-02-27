@@ -1619,6 +1619,203 @@ export function useRelinkTopHatWithinTree(
   return { writeAsync, writeAsyncOverride };
 }
 
+export function useRenounceHat(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.renounceHat({ account, hatId });
+    };
+  }, [hatsClient, account, hatId]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, hatId);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useRequestLinkTopHatToTree(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  topHatDomain: number,
+  requestedAdminHat: bigint
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      topHatDomain: number,
+      requestedAdminHat: bigint
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.requestLinkTopHatToTree({
+        account,
+        topHatDomain,
+        requestedAdminHat,
+      });
+    };
+  }, [hatsClient, account, topHatDomain, requestedAdminHat]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(
+      hatsClient,
+      account,
+      topHatDomain,
+      requestedAdminHat
+    );
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useSetHatStatus(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint,
+  newStatus: boolean
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint,
+      newStatus: boolean
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.setHatStatus({ account, hatId, newStatus });
+    };
+  }, [hatsClient, account, hatId, newStatus]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, hatId, newStatus);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useSetHatWearerStatus(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint,
+  wearer: `0x${string}`,
+  eligible: boolean,
+  standing: boolean
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint,
+      wearer: `0x${string}`,
+      eligible: boolean,
+      standing: boolean
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.setHatWearerStatus({
+        account,
+        hatId,
+        wearer,
+        eligible,
+        standing,
+      });
+    };
+  }, [hatsClient, account, hatId, wearer, eligible, standing]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(
+      hatsClient,
+      account,
+      hatId,
+      wearer,
+      eligible,
+      standing
+    );
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useTransferHat(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint,
+  from: `0x${string}`,
+  to: `0x${string}`
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint,
+      from: `0x${string}`,
+      to: `0x${string}`
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.transferHat({
+        account,
+        hatId,
+        from,
+        to,
+      });
+    };
+  }, [hatsClient, account, hatId, from, to]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, hatId, from, to);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useUnlinkTopHatFromTree(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  topHatDomain: number,
+  wearer: `0x${string}`
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      topHatDomain: number,
+      wearer: `0x${string}`
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return await hatsClient.unlinkTopHatFromTree({
+        account,
+        topHatDomain,
+        wearer,
+      });
+    };
+  }, [hatsClient, account, topHatDomain, wearer]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, topHatDomain, wearer);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
 async function yes() {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
