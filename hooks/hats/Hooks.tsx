@@ -1,22 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { HatsClient, MakeHatImmutableResult } from "@hatsprotocol/sdk-v1-core";
-import type {
-  /*MintHatResult, RenounceHatResult, ,  MakeHatImmutableResult, , SetHatStatusResult, TransferHatResult, SetHatWearerStatusResult, CheckHatStatusResult, CheckHatWearerStatusResult, RequestLinkTopHatToTreeResult, */
-  ApproveLinkTopHatToTreeResult,
-  CreateHatResult, /*MintTopHatResult, */
-  BatchCreateHatsResult,
-  BatchMintHatsResult,
-  ChangeHatDetailsResult,
-  ChangeHatEligibilityResult,
-  ChangeHatImageURIResult,
-  ChangeHatMaxSupplyResult,
-  ChangeHatToggleResult,
-  CheckHatStatusResult,
-  CheckHatWearerStatusResult,
-  /*UnlinkTopHatFromTreeResult, RelinkTopHatWithinTreeResult, MultiCallResult, */
-  ClaimResult,
-} from "@hatsprotocol/sdk-v1-core/dist/types";
-import { PublicClient, WalletClient, Hex, toHex } from "viem";
+import { HatsClient } from "@hatsprotocol/sdk-v1-core";
+import { PublicClient, WalletClient, Hex, toHex, Account } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 
 //////////////////////////////////
@@ -936,32 +920,166 @@ export function useMakeHatImmutable(
   return { writeAsync, writeAsyncOverride };
 }
 
-// export function useMakeHatImmutable(
-//   hatsClient: HatsClient | undefined,
-//   account: `0x${string}` | undefined,
-//   hatId: string,
-// ) {
-//   const writeAsyncOverride = useMemo(()=> {
-//     return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) => {
-//       if (!hatsClient) return;
-//       if (!account) return;
+export function useMintHat(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint,
+  wearer: `0x${string}`,
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, hatId: bigint, wearer: `0x${string}`,) => {
+      if (!hatsClient) return;
+      if (!account) return;
 
-//       return  await hatsClient.({ account, hatId: BigInt(hatId) });
+      return  await hatsClient.mintHat({ account, hatId: BigInt(hatId), wearer });
       
-//     }
-//   }, [hatsClient, account, hatId]);
+    }
+  }, [hatsClient, account, hatId, wearer]);
 
-//   async function writeAsync() {
-//     return await writeAsyncOverride(hatsClient, account, hatId);
-//   }
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, hatId, wearer);
+  }
 
-//   return { writeAsync, writeAsyncOverride };
-// }
+  return { writeAsync, writeAsyncOverride };
+}
 
+export function useMintTopHat(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+    target: `0x${string}`,
+    details: string,
+    imageURI?: string | undefined
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account,
+    target: `0x${string}`,
+    details: string,
+    imageURI?: string | undefined) => {
+      if (!hatsClient) return;
+      if (!account) return;
 
+      return  await hatsClient.mintTopHat({ account, target, details, imageURI });
+      
+    }
+  }, [hatsClient, account, target, details, imageURI]);
 
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, target, details, imageURI);
+  }
 
+  return { writeAsync, writeAsyncOverride };
+}
 
+export function useMultiClaimHatFor(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  hatId: bigint,
+  wearers: `0x${string}`[],
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, hatId: bigint, wearers: `0x${string}`[],) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return  await hatsClient.multiClaimHatFor({ account, hatId: BigInt(hatId), wearers });
+      
+    }
+  }, [hatsClient, account, hatId, wearers]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, hatId, wearers);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useMulticall(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+    calls: {
+        functionName: string;
+        callData: `0x${string}`;
+    }[]
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, calls: {
+      functionName: string;
+      callData: `0x${string}`;
+  }[]) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return  await hatsClient.multicall({ account, calls });
+      
+    }
+  }, [hatsClient, account, calls]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, calls);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useMulticallPreFlightCheck(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+  calls: {
+    functionName: string;
+    callData: `0x${string}`;
+}[]
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account,     calls: {
+      functionName: string;
+      callData: `0x${string}`;
+  }[]) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return  await hatsClient.multicallPreFlightCheck({ account, calls });
+      
+    }
+  }, [hatsClient, account, calls]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, calls);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
+
+export function useMultiClaimHatFor(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | Account,
+    topHatDomain: number,
+    newAdminHat: bigint,
+    newEligibility?: `0x${string}` | undefined,
+    newToggle?: `0x${string}` | undefined,
+    newDetails?: string | undefined,
+    newImageURI?: string | undefined
+) {
+  const writeAsyncOverride = useMemo(()=> {
+    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, topHatDomain: number,
+    newAdminHat: bigint,
+    newEligibility?: `0x${string}` | undefined,
+    newToggle?: `0x${string}` | undefined,
+    newDetails?: string | undefined,
+    newImageURI?: string | undefined) => {
+      if (!hatsClient) return;
+      if (!account) return;
+
+      return  await hatsClient.relinkTopHatWithinTree({ account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI});
+      
+    }
+  }, [hatsClient, account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI]);
+
+  async function writeAsync() {
+    return await writeAsyncOverride(hatsClient, account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI);
+  }
+
+  return { writeAsync, writeAsyncOverride };
+}
 
 
 
@@ -980,13 +1098,13 @@ async function yes() {
 
   const { writeAsync, writeAsyncOverride } = useMakeHatImmutable(hatsClient, account.address, "0");
 
-  const [data, setData] = useState<MakeHatImmutableResult>();
+  // const [data, setData] = useState<MakeHatImmutableResult>();
 
   async function callMe() {
     const res = await writeAsync();
     const res2 = await writeAsyncOverride(hatsClient, account.address, "0");
 
-    setData(res2);
+    // setData(res2);
 
   }
 
