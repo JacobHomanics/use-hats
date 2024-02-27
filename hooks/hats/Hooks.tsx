@@ -625,6 +625,228 @@ export function usePredictNextChildrenHatIDs(
   return { data, getData };
 }
 
+export function useRelinkTopHatWithinTreeCallData(
+  hatsClient: HatsClient | undefined,
+  topHatDomain: number,
+  newAdminHat: bigint,
+  newEligibility?: `0x${string}` | undefined,
+  newToggle?: `0x${string}` | undefined,
+  newDetails?: string | undefined,
+  newImageURI?: string | undefined
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number,
+    newAdminHat: bigint,
+    newEligibility?: `0x${string}` | undefined,
+    newToggle?: `0x${string}` | undefined,
+    newDetails?: string | undefined,
+    newImageURI?: string | undefined
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.relinkTopHatWithinTreeCallData({
+      topHatDomain,
+      newAdminHat,
+      newEligibility,
+      newToggle,
+      newDetails,
+      newImageURI,
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(
+      hatsClient,
+      topHatDomain,
+      newAdminHat,
+      newEligibility,
+      newToggle,
+      newDetails,
+      newImageURI
+    );
+  }, [
+    hatsClient,
+    topHatDomain,
+    newAdminHat,
+    newEligibility,
+    newToggle,
+    newDetails,
+    newImageURI,
+  ]);
+
+  return { data, getData };
+}
+
+export function useRenounceHatCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: bigint
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(hatsClient: HatsClient | undefined, hatId: bigint) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.renounceHatCallData({ hatId });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, hatId);
+  }, [hatsClient, hatId]);
+
+  return { data, getData };
+}
+
+export function useRequestLinkTopHatToTreeCallData(
+  hatsClient: HatsClient | undefined,
+  topHatDomain: number,
+  requestedAdminHat: bigint
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number,
+    requestedAdminHat: bigint
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.requestLinkTopHatToTreeCallData({
+      topHatDomain,
+      requestedAdminHat,
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, topHatDomain, requestedAdminHat);
+  }, [hatsClient, topHatDomain, requestedAdminHat]);
+
+  return { data, getData };
+}
+
+export function useSetHatStatusCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: bigint,
+  newStatus: boolean
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: bigint,
+    newStatus: boolean
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.setHatStatusCallData({ hatId, newStatus });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, hatId, newStatus);
+  }, [hatsClient, hatId, newStatus]);
+
+  return { data, getData };
+}
+
+export function useSetHatWearerStatusCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: bigint,
+  wearer: `0x${string}`,
+  eligible: boolean,
+  standing: boolean
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: bigint,
+    wearer: `0x${string}`,
+    eligible: boolean,
+    standing: boolean
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.setHatWearerStatusCallData({
+      hatId,
+      wearer,
+      eligible,
+      standing,
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, hatId, wearer, eligible, standing);
+  }, [hatsClient, hatId, wearer, eligible, standing]);
+
+  return { data, getData };
+}
+
+export function useTransferHatCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: bigint,
+  from: `0x${string}`,
+  to: `0x${string}`
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: bigint,
+    from: `0x${string}`,
+    to: `0x${string}`
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.transferHatCallData({
+      hatId,
+      from,
+      to,
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, hatId, from, to);
+  }, [hatsClient, hatId, from, to]);
+
+  return { data, getData };
+}
+
+export function useUnlinkTopHatFromTreeCallData(
+  hatsClient: HatsClient | undefined,
+  topHatDomain: number,
+  wearer: `0x${string}`
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number,
+    wearer: `0x${string}`
+  ) {
+    if (!hatsClient) return;
+
+    const result = hatsClient.unlinkTopHatFromTreeCallData({
+      topHatDomain,
+      wearer,
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, topHatDomain, wearer);
+  }, [hatsClient, topHatDomain, wearer]);
+
+  return { data, getData };
+}
+
 export function useViewHat(hatsClient: HatsClient | undefined, hatId: string) {
   const [data, setData] = useState({
     details: "",
