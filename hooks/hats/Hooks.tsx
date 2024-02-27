@@ -8,11 +8,18 @@ import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 //////////////////////////////////
 //////////////////////////////////
 
-export function useHatsClient(chainId: number, publicClient: PublicClient, walletClient: WalletClient) {
+export function useHatsClient(
+  chainId: number,
+  publicClient: PublicClient,
+  walletClient: WalletClient
+) {
   const [hatsClient, setHatsClient] = useState<HatsClient>();
 
-  
-  async function getHatsClient(chainId: number, publicClient: PublicClient, walletClient: WalletClient) {
+  async function getHatsClient(
+    chainId: number,
+    publicClient: PublicClient,
+    walletClient: WalletClient
+  ) {
     const hatsClient = new HatsClient({
       chainId,
       publicClient,
@@ -36,10 +43,18 @@ export function useHatsClient(chainId: number, publicClient: PublicClient, walle
 //////////////////////////////////
 //////////////////////////////////
 
-export function useAccountCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: `0x${string}` | undefined) {
+export function useAccountCanClaim(
+  hatsClient: HatsClient | undefined,
+  hatId: string,
+  account: `0x${string}` | undefined
+) {
   const [data, setData] = useState(false);
 
-  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: `0x${string}` | undefined) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: string,
+    account: `0x${string}` | undefined
+  ) {
     if (!hatsClient) return;
     if (!account) return;
 
@@ -58,10 +73,18 @@ export function useAccountCanClaim(hatsClient: HatsClient | undefined, hatId: st
   return { data, getData };
 }
 
-export function useCanClaimForAccount(hatsClient: HatsClient | undefined, hatId: string, account: `0x${string}` | undefined) {
+export function useCanClaimForAccount(
+  hatsClient: HatsClient | undefined,
+  hatId: string,
+  account: `0x${string}` | undefined
+) {
   const [data, setData] = useState(false);
 
-  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: `0x${string}` | undefined) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: string,
+    account: `0x${string}` | undefined
+  ) {
     if (!hatsClient) return;
     if (!account) return;
 
@@ -83,25 +106,31 @@ export function useCanClaimForAccount(hatsClient: HatsClient | undefined, hatId:
 export function useCopyTreeCallData(
   hatsClient: HatsClient | undefined,
   sourceTree: number,
-  targetTree: number,
+  targetTree: number
 ) {
-  const [data, setData] = useState<{functionName: string, callData: `0x${string}`}[]>();
+  const [data, setData] =
+    useState<{ functionName: string; callData: `0x${string}` }[]>();
 
-  async function getData(hatsClient: HatsClient | undefined, sourceTree: number, targetTree: number) {
-    if (!hatsClient)
-      return;
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    sourceTree: number,
+    targetTree: number
+  ) {
+    if (!hatsClient) return;
 
-    const result = await hatsClient.copyTreeCallData({ sourceTree, targetTree });
+    const result = await hatsClient.copyTreeCallData({
+      sourceTree,
+      targetTree,
+    });
     setData(result);
   }
 
-  useEffect(()=> {
-    getData(hatsClient, sourceTree, targetTree)
-  }, [hatsClient, sourceTree, targetTree])
+  useEffect(() => {
+    getData(hatsClient, sourceTree, targetTree);
+  }, [hatsClient, sourceTree, targetTree]);
 
   return { data, getData };
 }
-
 
 export function useCreateHatCallData(
   hatsClient: HatsClient | undefined,
@@ -113,18 +142,24 @@ export function useCreateHatCallData(
   mutable: boolean,
   imageURI?: string | undefined
 ) {
-  const [data, setData] = useState<{functionName: string, callData: `0x${string}`}>();
+  const [data, setData] = useState<{
+    functionName: string;
+    callData: `0x${string}`;
+  }>();
 
-  async function getData(hatsClient: HatsClient | undefined, admin: bigint,
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    admin: bigint,
     details: string,
     maxSupply: number,
     eligibility: `0x${string}`,
     toggle: `0x${string}`,
     mutable: boolean,
-    imageURI?: string | undefined) {
+    imageURI?: string | undefined
+  ) {
     if (!hatsClient) return;
 
-    const result = hatsClient.createHatCallData({  
+    const result = hatsClient.createHatCallData({
       admin,
       details,
       maxSupply,
@@ -132,20 +167,35 @@ export function useCreateHatCallData(
       toggle,
       mutable,
       imageURI,
- });
+    });
     setData(result);
   }
 
-  useEffect(()=> {
-    getData(hatsClient, admin, details, maxSupply, eligibility, toggle, mutable, imageURI);
-  }, [hatsClient, admin, details, maxSupply, eligibility, toggle, mutable, imageURI])
+  useEffect(() => {
+    getData(
+      hatsClient,
+      admin,
+      details,
+      maxSupply,
+      eligibility,
+      toggle,
+      mutable,
+      imageURI
+    );
+  }, [
+    hatsClient,
+    admin,
+    details,
+    maxSupply,
+    eligibility,
+    toggle,
+    mutable,
+    imageURI,
+  ]);
   return { data, getData };
 }
 
-export function useGetAdmin(
-  hatsClient: HatsClient | undefined,
-  hatId: bigint
-) {
+export function useGetAdmin(hatsClient: HatsClient | undefined, hatId: bigint) {
   const [data, setData] = useState<bigint>();
 
   async function getData(hatsClient: HatsClient | undefined, hatId: bigint) {
@@ -155,9 +205,9 @@ export function useGetAdmin(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
 
   return { data, getData };
 }
@@ -175,9 +225,9 @@ export function useGetChildrenHats(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
 
   return { data, getData };
 }
@@ -195,13 +245,12 @@ export function useGetHatLevel(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
 
   return { data, getData };
 }
-
 
 export function useGetLinkageRequest(
   hatsClient: HatsClient | undefined,
@@ -209,16 +258,19 @@ export function useGetLinkageRequest(
 ) {
   const [data, setData] = useState<bigint>();
 
-  async function getData(hatsClient: HatsClient | undefined, topHatDomain: number) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number
+  ) {
     if (!hatsClient) return;
 
     const result = await hatsClient.getLinkageRequest(topHatDomain);
     setData(result);
   }
 
-  useEffect(()=> {
-    getData(hatsClient, topHatDomain)
-  }, [hatsClient, topHatDomain])
+  useEffect(() => {
+    getData(hatsClient, topHatDomain);
+  }, [hatsClient, topHatDomain]);
 
   return { data, getData };
 }
@@ -229,16 +281,19 @@ export function useGetLinkedTreeAdmin(
 ) {
   const [data, setData] = useState<bigint>();
 
-  async function getData(hatsClient: HatsClient | undefined, topHatDomain: number) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number
+  ) {
     if (!hatsClient) return;
 
     const result = await hatsClient.getLinkedTreeAdmin(topHatDomain);
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, topHatDomain);
-  }, [hatsClient, topHatDomain])
+  }, [hatsClient, topHatDomain]);
 
   return { data, getData };
 }
@@ -256,9 +311,9 @@ export function useGetLocalHatLevel(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
   return { data, getData };
 }
 
@@ -268,16 +323,19 @@ export function useGetTippyTopHatDomain(
 ) {
   const [data, setData] = useState<number>();
 
-  async function getData(hatsClient: HatsClient | undefined, topHatDomain: number) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    topHatDomain: number
+  ) {
     if (!hatsClient) return;
 
     const result = await hatsClient.getTippyTopHatDomain(topHatDomain);
     setData(result);
   }
 
-  useEffect(()=> {
-    getData(hatsClient, topHatDomain)
-  }, [hatsClient, topHatDomain])
+  useEffect(() => {
+    getData(hatsClient, topHatDomain);
+  }, [hatsClient, topHatDomain]);
 
   return { data, getData };
 }
@@ -295,16 +353,14 @@ export function useGetTopHatDomain(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
 
   return { data, getData };
 }
 
-export function useGetTreesCount(
-  hatsClient: HatsClient | undefined
-) {
+export function useGetTreesCount(hatsClient: HatsClient | undefined) {
   const [data, setData] = useState<number>();
 
   async function getData(hatsClient: HatsClient | undefined) {
@@ -314,17 +370,14 @@ export function useGetTreesCount(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient);
-  }, [hatsClient])
+  }, [hatsClient]);
 
   return { data, getData };
 }
 
-export function useIsActive(
-  hatsClient: HatsClient | undefined,
-  hatId: bigint
-) {
+export function useIsActive(hatsClient: HatsClient | undefined, hatId: bigint) {
   const [data, setData] = useState<boolean>();
 
   async function getData(hatsClient: HatsClient | undefined, hatId: bigint) {
@@ -334,9 +387,9 @@ export function useIsActive(
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, hatId);
-  }, [hatsClient, hatId])
+  }, [hatsClient, hatId]);
   return { data, getData };
 }
 
@@ -347,15 +400,19 @@ export function useIsAdminOfHat(
 ) {
   const [data, setData] = useState<boolean>();
 
-  async function getData(hatsClient: HatsClient | undefined, user: `0x${string}`, hatId: bigint) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    user: `0x${string}`,
+    hatId: bigint
+  ) {
     if (!hatsClient) return;
 
-    const result = await hatsClient.isAdminOfHat({user, hatId});
+    const result = await hatsClient.isAdminOfHat({ user, hatId });
 
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, user, hatId);
   }, [hatsClient, user, hatId]);
 
@@ -369,15 +426,19 @@ export function useIsEligible(
 ) {
   const [data, setData] = useState<boolean>();
 
-  async function getData(hatsClient: HatsClient | undefined, wearer: `0x${string}`, hatId: bigint) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    wearer: `0x${string}`,
+    hatId: bigint
+  ) {
     if (!hatsClient) return;
 
-    const result = await hatsClient.isEligible({wearer, hatId});
+    const result = await hatsClient.isEligible({ wearer, hatId });
 
     setData(result);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getData(hatsClient, wearer, hatId);
   }, [hatsClient, wearer, hatId]);
 
@@ -391,29 +452,15 @@ export function useIsInGoodStanding(
 ) {
   const [data, setData] = useState<boolean>();
 
-  async function getData(hatsClient: HatsClient | undefined, wearer: `0x${string}`, hatId: bigint) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    wearer: `0x${string}`,
+    hatId: bigint
+  ) {
     if (!hatsClient) return;
 
-    const result = await hatsClient.isInGoodStanding({wearer, hatId});
+    const result = await hatsClient.isInGoodStanding({ wearer, hatId });
 
-    setData(result);
-  }
-
-  useEffect(()=> {
-    getData(hatsClient, wearer, hatId);
-  }, [hatsClient, wearer, hatId]);
-
-  return { data, getData };
-}
-
-export function useIsWearerOfHat(hatsClient: HatsClient | undefined, wearer: `0x${string}` | undefined, hatId: string) {
-  const [data, setData] = useState(false);
-
-  async function getData(hatsClient: HatsClient | undefined, wearer: `0x${string}` | undefined, hatId: string) {
-    if (!hatsClient) return;
-    if (!wearer) return;
-
-    const result = await hatsClient.isWearerOfHat({ wearer, hatId: BigInt(hatId) });
     setData(result);
   }
 
@@ -424,13 +471,47 @@ export function useIsWearerOfHat(hatsClient: HatsClient | undefined, wearer: `0x
   return { data, getData };
 }
 
-export function useMakeHatImmutableCallData(hatsClient: HatsClient | undefined, hatId: string) {
-  const [data, setData] = useState({ functionName: "", callData: toHex('')});
+export function useIsWearerOfHat(
+  hatsClient: HatsClient | undefined,
+  wearer: `0x${string}` | undefined,
+  hatId: string
+) {
+  const [data, setData] = useState(false);
+
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    wearer: `0x${string}` | undefined,
+    hatId: string
+  ) {
+    if (!hatsClient) return;
+    if (!wearer) return;
+
+    const result = await hatsClient.isWearerOfHat({
+      wearer,
+      hatId: BigInt(hatId),
+    });
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, wearer, hatId);
+  }, [hatsClient, wearer, hatId]);
+
+  return { data, getData };
+}
+
+export function useMakeHatImmutableCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: string
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
 
   async function getData(hatsClient: HatsClient | undefined, hatId: string) {
     if (!hatsClient) return;
 
-    const result = hatsClient.makeHatImmutableCallData({ hatId: BigInt(hatId) });
+    const result = hatsClient.makeHatImmutableCallData({
+      hatId: BigInt(hatId),
+    });
     setData(result);
   }
 
@@ -441,10 +522,18 @@ export function useMakeHatImmutableCallData(hatsClient: HatsClient | undefined, 
   return { data, getData };
 }
 
-export function useMintHatCallData(hatsClient: HatsClient | undefined, hatId: string, wearer: `0x${string}`) {
-  const [data, setData] = useState({ functionName: "", callData: toHex('')});
+export function useMintHatCallData(
+  hatsClient: HatsClient | undefined,
+  hatId: string,
+  wearer: `0x${string}`
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
 
-  async function getData(hatsClient: HatsClient | undefined, hatId: string, wearer: `0x${string}`) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    hatId: string,
+    wearer: `0x${string}`
+  ) {
     if (!hatsClient) return;
 
     const result = hatsClient.mintHatCallData({ hatId: BigInt(hatId), wearer });
@@ -458,10 +547,20 @@ export function useMintHatCallData(hatsClient: HatsClient | undefined, hatId: st
   return { data, getData };
 }
 
-export function useMintTopHatData(hatsClient: HatsClient | undefined, target: `0x${string}`, details: string, imageURI?: string | undefined) {
-  const [data, setData] = useState({ functionName: "", callData: toHex('')});
+export function useMintTopHatData(
+  hatsClient: HatsClient | undefined,
+  target: `0x${string}`,
+  details: string,
+  imageURI?: string | undefined
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
 
-  async function getData(hatsClient: HatsClient | undefined, target: `0x${string}`, details: string, imageURI?: string | undefined) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    target: `0x${string}`,
+    details: string,
+    imageURI?: string | undefined
+  ) {
     if (!hatsClient) return;
 
     const result = hatsClient.mintTopHatCallData({ target, details, imageURI });
@@ -475,10 +574,16 @@ export function useMintTopHatData(hatsClient: HatsClient | undefined, target: `0
   return { data, getData };
 }
 
-export function useMulticallCallData(hatsClient: HatsClient | undefined, calls: `0x${string}`[]) {
-  const [data, setData] = useState({ functionName: "", callData: toHex('')});
+export function useMulticallCallData(
+  hatsClient: HatsClient | undefined,
+  calls: `0x${string}`[]
+) {
+  const [data, setData] = useState({ functionName: "", callData: toHex("") });
 
-  async function getData(hatsClient: HatsClient | undefined, calls: `0x${string}`[]) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    calls: `0x${string}`[]
+  ) {
     if (!hatsClient) return;
 
     const result = hatsClient.multicallCallData(calls);
@@ -492,13 +597,24 @@ export function useMulticallCallData(hatsClient: HatsClient | undefined, calls: 
   return { data, getData };
 }
 
-export function usePredictNextChildrenHatIDs(hatsClient: HatsClient | undefined, admin: bigint, numChildren: number) {
+export function usePredictNextChildrenHatIDs(
+  hatsClient: HatsClient | undefined,
+  admin: bigint,
+  numChildren: number
+) {
   const [data, setData] = useState<bigint[]>();
 
-  async function getData(hatsClient: HatsClient | undefined, admin: bigint, numChildren: number) {
+  async function getData(
+    hatsClient: HatsClient | undefined,
+    admin: bigint,
+    numChildren: number
+  ) {
     if (!hatsClient) return;
 
-    const result = await hatsClient.predictNextChildrenHatIDs({admin, numChildren});
+    const result = await hatsClient.predictNextChildrenHatIDs({
+      admin,
+      numChildren,
+    });
     setData(result);
   }
 
@@ -549,31 +665,42 @@ export function useApproveLinkTopHatToTree(
   newEligibility: `0x${string}` | undefined,
   newToggle: `0x${string}` | undefined,
   newDetails: string | undefined,
-  newImageURI: string | undefined,
+  newImageURI: string | undefined
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined,
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
       account: `0x${string}` | undefined,
       topHatDomain: number,
       newAdminHat: bigint,
       newEligibility: `0x${string}` | undefined,
       newToggle: `0x${string}` | undefined,
       newDetails: string | undefined,
-      newImageURI: string | undefined) => {
-        if (!hatsClient) return;
-        if (!account) return;
+      newImageURI: string | undefined
+    ) => {
+      if (!hatsClient) return;
+      if (!account) return;
 
-        return await hatsClient.approveLinkTopHatToTree({
-          account,
-          topHatDomain,
-          newAdminHat,
-          newEligibility,
-          newToggle,
-          newDetails,
-          newImageURI,
-        });
-      }
-  }, [hatsClient, account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI]);
+      return await hatsClient.approveLinkTopHatToTree({
+        account,
+        topHatDomain,
+        newAdminHat,
+        newEligibility,
+        newToggle,
+        newDetails,
+        newImageURI,
+      });
+    };
+  }, [
+    hatsClient,
+    account,
+    topHatDomain,
+    newAdminHat,
+    newEligibility,
+    newToggle,
+    newDetails,
+    newImageURI,
+  ]);
 
   async function writeAsync() {
     return await writeAsyncOverride(
@@ -584,7 +711,7 @@ export function useApproveLinkTopHatToTree(
       newEligibility,
       newToggle,
       newDetails,
-      newImageURI,
+      newImageURI
     );
   }
 
@@ -600,10 +727,11 @@ export function useBatchCreateHats(
   eligibilityModules: `0x${string}`[],
   toggleModules: `0x${string}`[],
   mutables: boolean[],
-  imageURIs?: string[] | undefined,
+  imageURIs?: string[] | undefined
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined,
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
       account: `0x${string}` | undefined,
       admins: bigint[],
       details: string[],
@@ -611,10 +739,11 @@ export function useBatchCreateHats(
       eligibilityModules: `0x${string}`[],
       toggleModules: `0x${string}`[],
       mutables: boolean[],
-      imageURIs?: string[] | undefined,) => { 
+      imageURIs?: string[] | undefined
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-    
+
       return await hatsClient.batchCreateHats({
         account,
         admins,
@@ -625,8 +754,18 @@ export function useBatchCreateHats(
         mutables,
         imageURIs,
       });
-    }
-  }, [hatsClient, account, admins, details, maxSupplies, eligibilityModules, toggleModules, mutables, imageURIs]);
+    };
+  }, [
+    hatsClient,
+    account,
+    admins,
+    details,
+    maxSupplies,
+    eligibilityModules,
+    toggleModules,
+    mutables,
+    imageURIs,
+  ]);
 
   async function writeAsync() {
     return await writeAsyncOverride(
@@ -638,7 +777,7 @@ export function useBatchCreateHats(
       eligibilityModules,
       toggleModules,
       mutables,
-      imageURIs,
+      imageURIs
     );
   }
 
@@ -649,15 +788,20 @@ export function useBatchMintHats(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatIds: bigint[],
-  wearers: `0x${string}`[],
+  wearers: `0x${string}`[]
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatIds: bigint[], wearers: `0x${string}`[],) =>  {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatIds: bigint[],
+      wearers: `0x${string}`[]
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.batchMintHats({account, hatIds, wearers})
-    }
+
+      return await hatsClient.batchMintHats({ account, hatIds, wearers });
+    };
   }, [hatsClient, account, hatIds, wearers]);
 
   async function writeAsync() {
@@ -671,15 +815,24 @@ export function useChangeHatDetails(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  newDetails: string,
+  newDetails: string
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, newDetails: string) =>  { 
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      newDetails: string
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.changeHatDetails({ account, hatId: BigInt(hatId), newDetails })
-    }
+
+      return await hatsClient.changeHatDetails({
+        account,
+        hatId: BigInt(hatId),
+        newDetails,
+      });
+    };
   }, [hatsClient, account, hatId, newDetails]);
 
   async function writeAsync() {
@@ -693,16 +846,24 @@ export function useChangeHatEligibility(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  newEligibility: `0x${string}`,
+  newEligibility: `0x${string}`
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, newEligibility: `0x${string}`) =>  { 
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      newEligibility: `0x${string}`
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.changeHatEligibility({account, hatId: BigInt(hatId), newEligibility});
 
-    }
+      return await hatsClient.changeHatEligibility({
+        account,
+        hatId: BigInt(hatId),
+        newEligibility,
+      });
+    };
   }, [hatsClient, account, hatId, newEligibility]);
 
   async function writeAsync() {
@@ -716,19 +877,28 @@ export function useChangeHatImageURI(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  newImageURI: string,
+  newImageURI: string
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, newImageURI: string,) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      newImageURI: string
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.changeHatImageURI({ account, hatId: BigInt(hatId), newImageURI });
-    }
+
+      return await hatsClient.changeHatImageURI({
+        account,
+        hatId: BigInt(hatId),
+        newImageURI,
+      });
+    };
   }, [hatsClient, account, hatId, newImageURI]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId, newImageURI)
+    return await writeAsyncOverride(hatsClient, account, hatId, newImageURI);
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -738,19 +908,28 @@ export function useChangeHatMaxSupply(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  newMaxSupply: number,
+  newMaxSupply: number
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, newMaxSupply: number) => { 
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      newMaxSupply: number
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-  
-      return await hatsClient.changeHatMaxSupply({ account, hatId: BigInt(hatId), newMaxSupply });
-    }
+
+      return await hatsClient.changeHatMaxSupply({
+        account,
+        hatId: BigInt(hatId),
+        newMaxSupply,
+      });
+    };
   }, [hatsClient, account, hatId, newMaxSupply]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId, newMaxSupply)
+    return await writeAsyncOverride(hatsClient, account, hatId, newMaxSupply);
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -760,36 +939,53 @@ export function useChangeHatToggle(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  newToggle: `0x${string}`,
+  newToggle: `0x${string}`
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, newToggle: `0x${string}`,) =>  {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      newToggle: `0x${string}`
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.changeHatToggle({ account, hatId: BigInt(hatId), newToggle });
-    }
+
+      return await hatsClient.changeHatToggle({
+        account,
+        hatId: BigInt(hatId),
+        newToggle,
+      });
+    };
   }, [hatsClient, account, hatId, newToggle]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId, newToggle)
+    return await writeAsyncOverride(hatsClient, account, hatId, newToggle);
   }
 
   return { writeAsync, writeAsyncOverride };
 }
 
-export function useCheckHatStatus(hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) =>  {
+export function useCheckHatStatus(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | undefined,
+  hatId: string
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
+
       return await hatsClient.checkHatStatus({ account, hatId: BigInt(hatId) });
-    }
+    };
   }, [hatsClient, account, hatId]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId)
+    return await writeAsyncOverride(hatsClient, account, hatId);
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -799,37 +995,53 @@ export function useCheckHatWearerStatus(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  wearer: `0x${string}`,
+  wearer: `0x${string}`
 ) {
-
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string, wearer: `0x${string}`) =>  {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string,
+      wearer: `0x${string}`
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return await hatsClient.checkHatWearerStatus({ account, hatId: BigInt(hatId), wearer });
-    }
+      return await hatsClient.checkHatWearerStatus({
+        account,
+        hatId: BigInt(hatId),
+        wearer,
+      });
+    };
   }, [hatsClient, account, hatId, wearer]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId, wearer)
+    return await writeAsyncOverride(hatsClient, account, hatId, wearer);
   }
 
   return { writeAsync, writeAsyncOverride };
 }
 
-export function useClaimHat(hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) => {
+export function useClaimHat(
+  hatsClient: HatsClient | undefined,
+  account: `0x${string}` | undefined,
+  hatId: string
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
       return await hatsClient.claimHat({ account, hatId: BigInt(hatId) });
-    }
+    };
   }, [hatsClient, account, hatId]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, hatId)
+    return await writeAsyncOverride(hatsClient, account, hatId);
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -839,23 +1051,28 @@ export function useClaimHatFor(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   hatId: string,
-  wearer: `0x${string}`,
+  wearer: `0x${string}`
 ) {
-
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined,
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
       account: `0x${string}` | undefined,
       hatId: string,
-      wearer: `0x${string}`) => {
+      wearer: `0x${string}`
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return await hatsClient.claimHatFor({ account, hatId: BigInt(hatId), wearer });
-    }
+
+      return await hatsClient.claimHatFor({
+        account,
+        hatId: BigInt(hatId),
+        wearer,
+      });
+    };
   }, [hatsClient, account, hatId, wearer]);
 
   async function writeAsync() {
-      return await writeAsyncOverride(hatsClient, account, hatId, wearer)
+    return await writeAsyncOverride(hatsClient, account, hatId, wearer);
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -865,34 +1082,63 @@ export function useCreateHat(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
   admin: bigint,
+  details: string,
+  maxSupply: number,
+  eligibility: `0x${string}`,
+  toggle: `0x${string}`,
+  mutable: boolean,
+  imageURI?: string | undefined
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      admin: bigint,
       details: string,
       maxSupply: number,
       eligibility: `0x${string}`,
       toggle: `0x${string}`,
       mutable: boolean,
       imageURI?: string | undefined
-
-) {
-
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined,
-      account: `0x${string}` | undefined,
-      admin: bigint,
-          details: string,
-          maxSupply: number,
-          eligibility: `0x${string}`,
-          toggle: `0x${string}`,
-          mutable: boolean,
-          imageURI?: string | undefined) => { 
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
-      
-      return  await hatsClient.createHat({ account, admin, details, maxSupply, eligibility, toggle, mutable,imageURI});
-    }
-  }, [hatsClient, account, admin, details, maxSupply, eligibility, toggle, mutable, imageURI]);
+
+      return await hatsClient.createHat({
+        account,
+        admin,
+        details,
+        maxSupply,
+        eligibility,
+        toggle,
+        mutable,
+        imageURI,
+      });
+    };
+  }, [
+    hatsClient,
+    account,
+    admin,
+    details,
+    maxSupply,
+    eligibility,
+    toggle,
+    mutable,
+    imageURI,
+  ]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, admin, details, maxSupply, eligibility, toggle, mutable, imageURI)
+    return await writeAsyncOverride(
+      hatsClient,
+      account,
+      admin,
+      details,
+      maxSupply,
+      eligibility,
+      toggle,
+      mutable,
+      imageURI
+    );
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -901,16 +1147,22 @@ export function useCreateHat(
 export function useMakeHatImmutable(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | undefined,
-  hatId: string,
+  hatId: string
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | undefined, hatId: string) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | undefined,
+      hatId: string
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.makeHatImmutable({ account, hatId: BigInt(hatId) });
-      
-    }
+      return await hatsClient.makeHatImmutable({
+        account,
+        hatId: BigInt(hatId),
+      });
+    };
   }, [hatsClient, account, hatId]);
 
   async function writeAsync() {
@@ -924,16 +1176,24 @@ export function useMintHat(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | Account,
   hatId: bigint,
-  wearer: `0x${string}`,
+  wearer: `0x${string}`
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, hatId: bigint, wearer: `0x${string}`,) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint,
+      wearer: `0x${string}`
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.mintHat({ account, hatId: BigInt(hatId), wearer });
-      
-    }
+      return await hatsClient.mintHat({
+        account,
+        hatId: BigInt(hatId),
+        wearer,
+      });
+    };
   }, [hatsClient, account, hatId, wearer]);
 
   async function writeAsync() {
@@ -946,25 +1206,38 @@ export function useMintHat(
 export function useMintTopHat(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | Account,
-    target: `0x${string}`,
-    details: string,
-    imageURI?: string | undefined
+  target: `0x${string}`,
+  details: string,
+  imageURI?: string | undefined
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account,
-    target: `0x${string}`,
-    details: string,
-    imageURI?: string | undefined) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      target: `0x${string}`,
+      details: string,
+      imageURI?: string | undefined
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.mintTopHat({ account, target, details, imageURI });
-      
-    }
+      return await hatsClient.mintTopHat({
+        account,
+        target,
+        details,
+        imageURI,
+      });
+    };
   }, [hatsClient, account, target, details, imageURI]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, target, details, imageURI);
+    return await writeAsyncOverride(
+      hatsClient,
+      account,
+      target,
+      details,
+      imageURI
+    );
   }
 
   return { writeAsync, writeAsyncOverride };
@@ -974,16 +1247,24 @@ export function useMultiClaimHatFor(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | Account,
   hatId: bigint,
-  wearers: `0x${string}`[],
+  wearers: `0x${string}`[]
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, hatId: bigint, wearers: `0x${string}`[],) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      hatId: bigint,
+      wearers: `0x${string}`[]
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.multiClaimHatFor({ account, hatId: BigInt(hatId), wearers });
-      
-    }
+      return await hatsClient.multiClaimHatFor({
+        account,
+        hatId: BigInt(hatId),
+        wearers,
+      });
+    };
   }, [hatsClient, account, hatId, wearers]);
 
   async function writeAsync() {
@@ -996,22 +1277,25 @@ export function useMultiClaimHatFor(
 export function useMulticall(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | Account,
-    calls: {
+  calls: {
+    functionName: string;
+    callData: `0x${string}`;
+  }[]
+) {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      calls: {
         functionName: string;
         callData: `0x${string}`;
-    }[]
-) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, calls: {
-      functionName: string;
-      callData: `0x${string}`;
-  }[]) => {
+      }[]
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.multicall({ account, calls });
-      
-    }
+      return await hatsClient.multicall({ account, calls });
+    };
   }, [hatsClient, account, calls]);
 
   async function writeAsync() {
@@ -1027,19 +1311,22 @@ export function useMulticallPreFlightCheck(
   calls: {
     functionName: string;
     callData: `0x${string}`;
-}[]
+  }[]
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account,     calls: {
-      functionName: string;
-      callData: `0x${string}`;
-  }[]) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      calls: {
+        functionName: string;
+        callData: `0x${string}`;
+      }[]
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.multicallPreFlightCheck({ account, calls });
-      
-    }
+      return await hatsClient.multicallPreFlightCheck({ account, calls });
+    };
   }, [hatsClient, account, calls]);
 
   async function writeAsync() {
@@ -1049,54 +1336,82 @@ export function useMulticallPreFlightCheck(
   return { writeAsync, writeAsyncOverride };
 }
 
-export function useMultiClaimHatFor(
+export function useRelinkTopHatWithinTree(
   hatsClient: HatsClient | undefined,
   account: `0x${string}` | Account,
-    topHatDomain: number,
-    newAdminHat: bigint,
-    newEligibility?: `0x${string}` | undefined,
-    newToggle?: `0x${string}` | undefined,
-    newDetails?: string | undefined,
-    newImageURI?: string | undefined
+  topHatDomain: number,
+  newAdminHat: bigint,
+  newEligibility?: `0x${string}` | undefined,
+  newToggle?: `0x${string}` | undefined,
+  newDetails?: string | undefined,
+  newImageURI?: string | undefined
 ) {
-  const writeAsyncOverride = useMemo(()=> {
-    return async (hatsClient: HatsClient | undefined, account: `0x${string}` | Account, topHatDomain: number,
-    newAdminHat: bigint,
-    newEligibility?: `0x${string}` | undefined,
-    newToggle?: `0x${string}` | undefined,
-    newDetails?: string | undefined,
-    newImageURI?: string | undefined) => {
+  const writeAsyncOverride = useMemo(() => {
+    return async (
+      hatsClient: HatsClient | undefined,
+      account: `0x${string}` | Account,
+      topHatDomain: number,
+      newAdminHat: bigint,
+      newEligibility?: `0x${string}` | undefined,
+      newToggle?: `0x${string}` | undefined,
+      newDetails?: string | undefined,
+      newImageURI?: string | undefined
+    ) => {
       if (!hatsClient) return;
       if (!account) return;
 
-      return  await hatsClient.relinkTopHatWithinTree({ account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI});
-      
-    }
-  }, [hatsClient, account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI]);
+      return await hatsClient.relinkTopHatWithinTree({
+        account,
+        topHatDomain,
+        newAdminHat,
+        newEligibility,
+        newToggle,
+        newDetails,
+        newImageURI,
+      });
+    };
+  }, [
+    hatsClient,
+    account,
+    topHatDomain,
+    newAdminHat,
+    newEligibility,
+    newToggle,
+    newDetails,
+    newImageURI,
+  ]);
 
   async function writeAsync() {
-    return await writeAsyncOverride(hatsClient, account, topHatDomain, newAdminHat, newEligibility, newToggle, newDetails, newImageURI);
+    return await writeAsyncOverride(
+      hatsClient,
+      account,
+      topHatDomain,
+      newAdminHat,
+      newEligibility,
+      newToggle,
+      newDetails,
+      newImageURI
+    );
   }
 
   return { writeAsync, writeAsyncOverride };
 }
 
-
-
-
-
-
-
-
-
-
 async function yes() {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
-  const { hatsClient, getHatsClient } = useHatsClient(5, publicClient!, walletClient!);
+  const { hatsClient, getHatsClient } = useHatsClient(
+    5,
+    publicClient!,
+    walletClient!
+  );
   const account = useAccount();
 
-  const { writeAsync, writeAsyncOverride } = useMakeHatImmutable(hatsClient, account.address, "0");
+  const { writeAsync, writeAsyncOverride } = useMakeHatImmutable(
+    hatsClient,
+    account.address,
+    "0"
+  );
 
   // const [data, setData] = useState<MakeHatImmutableResult>();
 
@@ -1105,11 +1420,8 @@ async function yes() {
     const res2 = await writeAsyncOverride(hatsClient, account.address, "0");
 
     // setData(res2);
-
   }
-
 }
-
 
 // export function useHatsClientRead(hatsClient: HatsClient, functionName: string, args: object[]) {
 //     async function clientRead(hatsClient: HatsClient, functionName: string, args: object[]) {
